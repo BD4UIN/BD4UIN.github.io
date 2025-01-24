@@ -5,7 +5,7 @@ You can choose to go to the home page by clicking the link below
 [![主页面](https://img.shields.io/badge/访问-主页面-blue)](MainPage.html)
 # In fact, there are some confidential actions
 I put it here for convenience. You can't get my token anyway.
-[Warehouse backend query](https://www.bd4uin.online/confidential/Query.html)
+[Warehouse backend query](https://bd4uin.online/confidential/Query.html)
 # I just happened to have nothing to do, and found that GitHub can build a personal blog
 If you see this message, indicating that your network is normal
 Please reply on the Chinese messaging app QQ. My QQ number is 845568739
