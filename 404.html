@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 页面未找到</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .progress {
+            height: 20px;
+            width: 0%;
+            background-color: #007BFF;
+            transition: width 4s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>无法查找到文件，该页面处于404状态，将在4秒后重定向</h1>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // 设置进度条动画
+        const progressBar = document.getElementById("progress");
+        progressBar.style.width = "0%";
+        progressBar.style.transition = "width 4s linear";
+        setTimeout(() => {
+            progressBar.style.width = "100%";
+        }, 0);
+
+        // 4秒后重定向
+        setTimeout(() => {
+            window.location.href = "https://bd4uin.github.io";
+        }, 4000);
+    </script>
+</body>
+</html>
