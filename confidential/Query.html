@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 仓库文件查询与上传</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .file-list {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GitHub 仓库文件查询与上传</h1>
+        <div class="form-group">
+            <label for="repoName">仓库名称（格式：用户名/仓库名）</label>
+            <input type="text" id="repoName" placeholder="输入仓库名称" required>
+        </div>
+        <div class="form-group">
+            <label for="token">GitHub Token</label>
+            <input type="password" id="token" placeholder="输入你的 GitHub Token" required>
+        </div>
+        <div class="form-group">
+            <button onclick="fetchFiles()">查询文件</button>
+        </div>
+        <div class="form-group">
+            <label for="fileInput">上传文件</label>
+            <input type="file" id="fileInput">
+            <button onclick="uploadFile()">上传文件到仓库</button>
+        </div>
+        <div class="file-list">
+            <h2>文件列表</h2>
+            <ul id="fileList"></ul>
+        </div>
+    </div>
+
+    <script>
+        // 查询文件
+        async function fetchFiles() {
+            const repoName = document.getElementById("repoName").value;
+            const token = document.getElementById("token").value;
+            const branch = "main"; // 默认分支
+            const url = `https://api.github.com/repos/${repoName}/git/trees/${branch}?recursive=1`;
+
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        "Accept": "application/vnd.github.v3+json",
+                        "Authorization": `token ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`请求失败：${errorData.message}`);
+                }
+
+                const data = await response.json();
+                displayFiles(data.tree);
+            } catch (error) {
+                console.error("Error:", error);
+                alert(error.message);
+            }
+        }
+
+        // 显示文件列表
+        function displayFiles(files) {
+            const fileList = document.getElementById("fileList");
+            fileList.innerHTML = ""; // 清空列表
+
+            files.forEach(file => {
+                if (file.type === "blob") { // 只显示文件，不显示目录
+                    const li = document.createElement("li");
+                    li.textContent = file.path;
+                    fileList.appendChild(li);
+                }
+            });
+        }
+
+        // 上传文件到仓库
+        async function uploadFile() {
+            const repoName = document.getElementById("repoName").value;
+            const token = document.getElementById("token").value;
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("请选择一个文件！");
+                return;
+            }
+
+            const filePath = file.name; // 文件路径为文件名
+            const branch = "main"; // 默认分支
+            const url = `https://api.github.com/repos/${repoName}/contents/${filePath}`;
+
+            try {
+                // 获取文件内容
+                const fileContent = await file.text();
+
+                // 获取文件的 SHA（如果文件已存在）
+                let sha = "";
+                const response = await fetch(url, {
+                    headers: {
+                        "Accept": "application/vnd.github.v3+json",
+                        "Authorization": `token ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    sha = data.sha; // 如果文件已存在，获取 SHA 值
+                }
+
+                // 构造上传请求
+                const uploadResponse = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Accept": "application/vnd.github.v3+json",
+                        "Authorization": `token ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: `Upload ${filePath}`,
+                        content: btoa(fileContent), // 文件内容需要 Base64 编码
+                        branch: branch,
+                        sha: sha // 如果文件已存在，需要提供 SHA 值
+                    })
+                });
+
+                if (!uploadResponse.ok) {
+                    const errorData = await uploadResponse.json();
+                    throw new Error(`上传失败：${errorData.message}`);
+                }
+
+                alert("文件上传成功！");
+                fileInput.value = ""; // 清空文件输入框
+            } catch (error) {
+                console.error("Error:", error);
+                alert(error.message);
+            }
+        }
+    </script>
+</body>
+</html>
