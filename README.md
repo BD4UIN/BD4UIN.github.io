@@ -1,5 +1,7 @@
 # BD4UIN.github.io
-I just happened to have nothing to do, and found that GitHub can build a personal blog
+You can choose to go to the home page by clicking the link below
+[![主页面](https://img.shields.io/badge/访问-主页面-blue)](index.html)
+# I just happened to have nothing to do, and found that GitHub can build a personal blog
 If you see this message, indicating that your network is normal
 Please reply on the Chinese messaging app QQ. My QQ number is 845568739
 Stranger, please give me a like. You just need to click on the star
