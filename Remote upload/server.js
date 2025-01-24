@@ -8,7 +8,7 @@ const app = express();
 const upload = multer({ dest: "uploads/" });
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // 从环境变量中获取 Token
-const GITHUB_REPO = "your-username/your-repo"; // 替换为你的 GitHub 仓库
+const GITHUB_REPO = "BD4UIN/BD4UIN.github.io"; // 替换为你的 GitHub 仓库
 const GITHUB_BRANCH = "main"; // 替换为你的分支
 
 app.post("/upload", upload.single("file"), async (req, res) => {
