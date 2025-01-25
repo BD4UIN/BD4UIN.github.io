@@ -44,7 +44,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>ERROR：网站不可达到，错误代码404，二重指针将重定向到主页</h1>
+        <h1>ERROR：网站不可达到/n错误代码404/n二重指针将重定向到主页</h1>
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
         </div>
@@ -54,7 +54,7 @@
         // 设置进度条动画
         const progressBar = document.getElementById("progress");
         progressBar.style.width = "0%";
-        progressBar.style.transition = "width 3s linear";
+        progressBar.style.transition = "width 4s linear";
         setTimeout(() => {
             progressBar.style.width = "100%";
         }, 0);
@@ -62,7 +62,7 @@
         // 4秒后重定向
         setTimeout(() => {
             window.location.href = "https://bd4uin.online";
-        }, 3000);
+        }, 4000);
     </script>
 </body>
 </html>
