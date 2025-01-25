@@ -2,7 +2,7 @@
 # This is an introduction page
 # Site from BD4UIN
 You can choose to go to the home page by clicking the link below
-[![主页面](https://img.shields.io/badge/访问-主页面-blue)](MainPage.html)
+[![主页面](https://img.shields.io/badge/访问-主页面-blue)](Log in.html)
 # In fact, there are some confidential actions
 I put it here for convenience. You can't get my token anyway.
 [Warehouse backend query](https://bd4uin.online/confidential/Query.html)
