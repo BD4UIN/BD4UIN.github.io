@@ -1,0 +1,5 @@
+[
+    {"name": "WIN-下载器.exe", "type": "file", "url": "files/WIN-下载器.exe"},
+    {"name": "example2.docx", "type": "file", "url": "files/example2.docx"},
+    {"name": "image1.jpg", "type": "file", "url": "files/image1.jpg"}
+]

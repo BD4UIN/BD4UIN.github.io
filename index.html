@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态文件下载主页</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-box input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .search-box button:hover {
+            background-color: #45a049;
+        }
+        .file-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .file-list li {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .file-list li:last-child {
+            border-bottom: none;
+        }
+        .file-list img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .file-list a {
+            text-decoration: none;
+            color: #333;
+        }
+        .file-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索文件...">
+            <button onclick="searchFiles()">搜索</button>
+        </div>
+        <ul class="file-list" id="fileList">
+            <!-- 文件和文件夹列表将通过JavaScript动态加载 -->
+        </ul>
+    </div>
+    <script>
+        // 加载文件列表
+        function loadFileList() {
+            fetch('filelist.json')
+                .then(response => response.json())
+                .then(files => {
+                    const fileList = document.getElementById('fileList');
+                    fileList.innerHTML = ''; // 清空现有列表
+                    files.forEach(file => {
+                        const li = document.createElement('li');
+                        const img = document.createElement('img');
+                        const a = document.createElement('a');
+                        if (file.type === 'folder') {
+                            img.src = 'icons/folder.png';
+                            a.href = '#';
+                            a.textContent = file.name;
+                        } else {
+                            img.src = 'icons/file.png';
+                            a.href = file.url;
+                            a.download = file.name;
+                            a.textContent = file.name;
+                        }
+                        li.appendChild(img);
+                        li.appendChild(a);
+                        fileList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error loading file list:', error));
+        }
+
+        // 搜索功能
+        function searchFiles() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const files = document.getElementById('fileList').getElementsByTagName('li');
+            for (let i = 0; i < files.length; i++) {
+                const text = files[i].getElementsByTagName('a')[0].innerText.toLowerCase();
+                if (text.includes(input)) {
+                    files[i].style.display = '';
+                } else {
+                    files[i].style.display = 'none';
+                }
+            }
+        }
+
+        // 初始化时加载文件列表
+        loadFileList();
+    </script>
+</body>
+</html>
